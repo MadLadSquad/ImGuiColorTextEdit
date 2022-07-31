@@ -4,7 +4,7 @@
 #include <regex>
 #include <cmath>
 
-#include "TextEditor.h"
+#include "TextEditor.hpp"
 
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include "imgui.h" // for imGui::GetCurrentWindow()
