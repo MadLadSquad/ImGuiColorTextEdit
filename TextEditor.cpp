@@ -1120,6 +1120,8 @@ void TextEditor::Render()
 
 void TextEditor::Render(const char* aTitle, const ImVec2& aSize, bool aBorder)
 {
+	static bool bEnablingKeyboardFocus = true;
+
 	mWithinRender = true;
 	mTextChanged = false;
 	mCursorPositionChanged = false;
@@ -1132,17 +1134,20 @@ void TextEditor::Render(const char* aTitle, const ImVec2& aSize, bool aBorder)
 	if (mHandleKeyboardInputs)
 	{
 		HandleKeyboardInputs();
-		ImGui::PushAllowKeyboardFocus(true);
+		if (bEnablingKeyboardFocus)
+		{
+			ImGui::SetKeyboardFocusHere();
+			bEnablingKeyboardFocus = false;
+		}
 	}
+	else
+		bEnablingKeyboardFocus = true;
 
 	if (mHandleMouseInputs)
 		HandleMouseInputs();
 
 	ColorizeInternal();
 	Render();
-
-	if (mHandleKeyboardInputs)
-		ImGui::PopAllowKeyboardFocus();
 
 	if (!mIgnoreImGuiChild)
 		ImGui::EndChild();
